@@ -9,3 +9,12 @@ enum UserStatus {
   BANNED
   SUSPENDED
 }
+
+enum RentalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PAID
+  ACTIVE
+  COMPLETED
+}
