@@ -25,8 +25,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 //Api End poit
-// app.use('/api/auth', authRoutes);
-// app.use('/api/issues', issueRoutes);
+// app.use('/api',routes);
 
 //Global midleware
 // app.use(notFound);
