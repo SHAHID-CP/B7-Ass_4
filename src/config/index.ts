@@ -6,6 +6,7 @@ dotenv.config({path: path.join(process.cwd(), ".env") });
 
 
 const config= {
+    node_env : process.env.NODE_ENV,
     port : process.env.PORT,
     database_url : process.env.DATABASE_URL,
     app_url : process.env.APP_URL,
