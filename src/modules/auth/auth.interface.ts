@@ -4,3 +4,8 @@ export interface RegisterInput {
   password: string;
   role: "TENANT" | "LANDLORD";
 }
+
+export interface LoginInput {
+  email: string;
+  passwords: string;
+}
