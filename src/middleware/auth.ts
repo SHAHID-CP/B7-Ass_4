@@ -7,6 +7,7 @@ import type { JwtPayload } from "jsonwebtoken";
 import { jwtUtils } from "../utils/jwt";
 import { AppError } from "../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
+import type { Role } from "../../generated/prisma/enums";
 
 declare global {
     namespace Express {
@@ -15,7 +16,7 @@ declare global {
                 email: string;
                 name: string;
                 id: string;
-                role: "TENANT" | "LANDLORD" | "ADMIN";
+                role: Role;
             }
         }
     }
@@ -31,23 +32,23 @@ export const auth = (...requiredRoles : Role[]) => {
             req.headers.authorization?.split(" ")[1] 
             : req.headers.authorization;
 
-        if(!token) return next(new AppError(StatusCodes.UNAUTHORIZED, 'No token provided'));
+        if(!token) throw new AppError(StatusCodes.UNAUTHORIZED, 'No token provided');
         const verifiedToken = jwtUtils.verifyToken(token, config.jwt_access_secret);
 
-        if (!verifiedToken.success) return next(new AppError(StatusCodes.UNAUTHORIZED, verifiedToken.error));
+        if (!verifiedToken.success) throw new AppError(StatusCodes.UNAUTHORIZED, verifiedToken.error);
         const { email, name, id, role } = verifiedToken.data as JwtPayload;
 
 
 
-        if(requiredRoles.length && !requiredRoles.includes(role)) return next(new AppError(StatusCodes.UNAUTHORIZED, "Forbidden. You don't have permission to access this resource."));
+        if(requiredRoles.length && !requiredRoles.includes(role)) throw new AppError(StatusCodes.UNAUTHORIZED, "Forbidden. You don't have permission to access this resource.");
         const user = await prisma.user.findUnique({
             where: {id,email, name, role
             }
         });
 
 
-        if(!user) return next(new AppError(StatusCodes.UNAUTHORIZED, 'User not found. Please log in again.')); 
-        if(user.status === "BANNED") return next(new AppError(StatusCodes.FORBIDDEN, "Your account has been blocked. Please contact support."))
+        if(!user) throw new AppError(StatusCodes.UNAUTHORIZED, 'User not found. Please log in again.'); 
+        if(user.status === "BANNED") throw new AppError(StatusCodes.FORBIDDEN, "Your account has been blocked. Please contact support.")
 
         req.user = {email,name,id,role}
 
