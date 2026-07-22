@@ -2,6 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import config from "../config";
 import { Prisma } from "../../generated/prisma/client";
+import { AppError } from "../utils/sendResponse";
 
 export const sendError = (res: Response, statusCode: number, message: string, errors?: unknown):Response => {
   return res.status(statusCode).json({
@@ -16,8 +17,13 @@ export const globalErrorHandler = (err: any,req: Request,res: Response,next: Nex
 
 let statusCode: number = err.statusCode || StatusCodes.INTERNAL_SERVER_ERROR;
 let message: string = err.message || "Internal Server Error";
-let errors: unknown = err;
+let errors: unknown = err.errors || err;
 
+if (err instanceof AppError) {
+    statusCode = err.statusCode;
+    message = err.message;
+    errors = err.errors;
+  }
 
 // 1. Prisma Validation Errors (Missing/Wrong Fields)
   if (err instanceof Prisma.PrismaClientValidationError) {
@@ -60,14 +66,14 @@ let errors: unknown = err;
 
 if(config.node_env === 'development'){
 return sendError(res,statusCode,message,
-    {name:err.name,stack: err.stack})
+    {issues: errors,stack: err.stack})
 }else{
     if (err.isOperational) {
         const safeMessage = message;
         return sendError(res,
         statusCode,
         safeMessage,
-        safeMessage 
+        errors
         );
     } 
     else {
@@ -75,7 +81,7 @@ return sendError(res,statusCode,message,
         return sendError(res,
         StatusCodes.INTERNAL_SERVER_ERROR,
         secureFallback,
-        secureFallback 
+        null
         );
     }
 }

@@ -4,6 +4,9 @@ import express, {type Application,type Request,type Response} from "express";
 import CookieParser from "cookie-parser";
 import config from "./config";
 import { globalErrorHandler, notFound } from "./middleware/globalErrorHandeler";
+import { routes } from "./routes";
+
+
 
 
 const app: Application = express();
@@ -26,7 +29,7 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 //Api End poit
-// app.use('/api',routes);
+app.use('/api',routes);
 
 //Global midleware
 app.use(notFound);
