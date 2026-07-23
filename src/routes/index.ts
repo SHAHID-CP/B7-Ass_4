@@ -1,12 +1,15 @@
 import { Router } from "express";
 import { authRoutes } from "../modules/auth/auth.routes";
+import { landlordPropertyRoutes } from "../modules/landloard/landlord.routes";
+import { auth } from "../middleware/auth";
+import { Role } from "../../generated/prisma/enums";
 
 
 const router = Router();
 
 router.use("/auth", authRoutes);
 // router.use("/properties", publicPropertyRoutes);
-// router.use("/landlord/properties", landlordPropertyRoutes);
+router.use("/landlord",auth(Role.LANDLORD) ,landlordPropertyRoutes);
 // router.use("/categories", categoryRoutes);
 // router.use("/rentals", rentalRoutes);
 // router.use("/landlord/requests", landlordRequestRoutes);
