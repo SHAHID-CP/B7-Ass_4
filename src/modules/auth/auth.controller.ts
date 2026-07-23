@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { AppError, sendSuccess } from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
-import { authService } from "./auth.service";
+import { authService, userService } from "./auth.service";
 import { clearAuthCookies, setAuthCookies } from "../../utils/cookies";
 
 
@@ -39,9 +39,22 @@ const refreshToken = catchAsync(async (req: Request, res: Response,next:NextFunc
 });
 
 
+const getMyProfile = catchAsync( async (req: Request, res: Response, next: NextFunction) => {
+
+    const profile = await userService.getMyProfileFromDB(req.user?.id as string);
+    sendSuccess(res, StatusCodes.OK, "Current user fetched", profile );
+})
+
+
+export const userController = {
+    getMyProfile
+}
+
+
 export const authController={
     register,
     login,
     logout,
-    refreshToken
+    refreshToken,
+    getMyProfile
 }

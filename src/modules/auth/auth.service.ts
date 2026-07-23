@@ -54,7 +54,7 @@ const registerUser=async(payload:RegisterInput)=>{
 
 export const loginUser = async (payload: LoginInput) => {
 
-  const { email, passwords } = payload;
+  const { email, password } = payload;
 
   const user = await prisma.user.findUnique({ where: { email }});
   
@@ -66,14 +66,14 @@ export const loginUser = async (payload: LoginInput) => {
   }
 
 
-    const isMatch = await bcrypt.compare(passwords, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         throw new AppError(StatusCodes.UNAUTHORIZED, "Invalid email or password");
     }
 
     const jwtPayload = { id: user?.id, name: user?.name, email: user?.email,role: user?.role}
     const tokens = await issueTokenPair(jwtPayload);
-    const { password, ...safeUser } = user;
+    const { password: _, ...safeUser } = user;
 
   return { user: safeUser, ...tokens };
 };
@@ -96,6 +96,23 @@ const refreshToken = async (refreshToken: string) => {
 
     return {...tokens};
 };
+
+const getMyProfileFromDB = async (userId : string) => {
+    const user = await prisma.user.findUniqueOrThrow({
+        where : {id : userId},
+        omit : {
+            password : true
+        }
+    });
+    if (!user) {
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found");
+    }
+    return user;
+}
+
+export const userService = {
+    getMyProfileFromDB
+}
 
 export const authService={
     registerUser,
