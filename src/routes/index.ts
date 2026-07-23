@@ -7,6 +7,7 @@ import { categoryRoutes } from "../modules/category/categories.routes";
 import { rentalRoutes } from "../modules/rental/rental.routes";
 import { publicPropertyRoutes } from "../modules/properties/properties.routes";
 import { adminRoutes } from "../modules/admin/admin.routes";
+import { paymentRoutes } from "../modules/payment/payment.routes";
 
 
 const router = Router();
@@ -16,7 +17,7 @@ router.use("/properties", publicPropertyRoutes);
 router.use("/landlord",auth(Role.LANDLORD) ,landlordPropertyRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/rentals", rentalRoutes);
-// router.use("/payments", paymentRoutes);
+router.use("/payments", paymentRoutes);
 // router.use("/reviews", reviewRoutes);
 router.use("/admin", auth(Role.ADMIN),adminRoutes);
 
