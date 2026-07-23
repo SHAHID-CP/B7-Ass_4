@@ -24,10 +24,10 @@ const getMyProperties = catchAsync(async (req: Request, res: Response,next:NextF
   sendSuccess(res, StatusCodes.OK, "Your properties fetched successfully", properties);
 });
 
-const patchProperty = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
-  const property = await propertyService.patchProperty(req.params.id, req.user!.id, req.body);
-  sendSuccess(res, StatusCodes.OK, "Property updated successfully", property);
-});
+// const patchProperty = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
+//   const property = await propertyService.patchProperty(req.params.id, req.user!.id, req.body);
+//   sendSuccess(res, StatusCodes.OK, "Property updated successfully", property);
+// });
 
 
 export const landLordController={
@@ -35,5 +35,5 @@ export const landLordController={
     createProperty,
     updateProperty,
     deleteProperty,
-    patchProperty
+    // patchProperty
 }
