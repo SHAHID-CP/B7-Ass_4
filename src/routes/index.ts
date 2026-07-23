@@ -6,6 +6,7 @@ import { Role } from "../../generated/prisma/enums";
 import { categoryRoutes } from "../modules/category/categories.routes";
 import { rentalRoutes } from "../modules/rental/rental.routes";
 import { publicPropertyRoutes } from "../modules/properties/properties.routes";
+import { adminRoutes } from "../modules/admin/admin.routes";
 
 
 const router = Router();
@@ -15,9 +16,8 @@ router.use("/properties", publicPropertyRoutes);
 router.use("/landlord",auth(Role.LANDLORD) ,landlordPropertyRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/rentals", rentalRoutes);
-// router.use("/landlord/requests", landlordRequestRoutes);
 // router.use("/payments", paymentRoutes);
 // router.use("/reviews", reviewRoutes);
-// router.use("/admin", adminRoutes);
+router.use("/admin", auth(Role.ADMIN),adminRoutes);
 
 export const routes=router ;
