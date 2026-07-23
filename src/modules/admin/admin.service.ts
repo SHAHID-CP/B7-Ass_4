@@ -1,9 +1,10 @@
+import { StatusCodes } from "http-status-codes";
 import type { UserStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utils/sendResponse";
 
 const getAllUsers = async () => {
-  return prisma.user.findMany({
+  const users= prisma.user.findMany({
     select: {
       id: true,
       name: true,
@@ -14,15 +15,16 @@ const getAllUsers = async () => {
     },
     orderBy: { createdAt: "desc" },
   });
+  return users
 };
 
 const updateUserStatus = async (userId: string, status: UserStatus) => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
   if (!user) {
-    throw new AppError(404, "User not found");
+    throw new AppError(StatusCodes.NOT_FOUND, "User not found");
   }
   if (user.role === "ADMIN") {
-    throw new AppError(400, "Admin accounts' status cannot be changed");
+    throw new AppError(StatusCodes.BAD_REQUEST, "Admin accounts' status cannot be changed");
   }
 
   const updated = await prisma.user.update({
@@ -36,16 +38,18 @@ const updateUserStatus = async (userId: string, status: UserStatus) => {
 
 
 const getAllProperties = async () => {
-  return prisma.property.findMany({
+  const allProperty=prisma.property.findMany({
     include: { category: true, landlord: { select: { id: true, name: true, email: true } } },
     orderBy: { createdAt: "desc" },
   });
+
+  return allProperty
 };
 
-// ---- Rentals ----
 
 const getAllRentals = async () => {
-  return prisma.rentalRequest.findMany({
+  
+  const allRentals=prisma.rentalRequest.findMany({
     include: {
       property: true,
       tenant: { select: { id: true, name: true, email: true } },
@@ -53,6 +57,8 @@ const getAllRentals = async () => {
     },
     orderBy: { createdAt: "desc" },
   });
+  
+  return allRentals
 };
 
 

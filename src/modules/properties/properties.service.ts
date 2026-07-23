@@ -1,9 +1,9 @@
+import { StatusCodes } from "http-status-codes";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utils/sendResponse";
 import type { PropertyQuery } from "./properties.interface";
 
 const getAllProperties = async (query: PropertyQuery) => {
-  // 1. safe default values & type conversion (NaN হ্যান্ডলিং)
   const page = Number(query.page) > 0 ? Number(query.page) : 1;
   const limit = Number(query.limit) > 0 ? Number(query.limit) : 10;
   const skip = (page - 1) * limit;
@@ -11,7 +11,6 @@ const getAllProperties = async (query: PropertyQuery) => {
   const location = query.location;
   const categoryId = query.categoryId;
   
-  // 2. Price type conversion
   const minPrice = query.minPrice !== undefined ? Number(query.minPrice) : undefined;
   const maxPrice = query.maxPrice !== undefined ? Number(query.maxPrice) : undefined;
 
@@ -38,8 +37,8 @@ const getAllProperties = async (query: PropertyQuery) => {
         category: true,
         landlord: { select: { id: true, name: true } },
       },
-      skip,  // ✅ নিশ্চিতভাবে এটি এখন Valid Number
-      take: limit, // ✅ নিশ্চিতভাবে এটি এখন Valid Number
+      skip, 
+      take: limit, 
       orderBy: { createdAt: "desc" },
     }),
     prisma.property.count({ where }),
@@ -67,7 +66,7 @@ export const getPropertyById = async (id: string) => {
   });
 
   if (!property) {
-    throw new AppError(404, "Property not found");
+    throw new AppError(StatusCodes.NOT_FOUND, "Property not found");
   }
 
   return property;
