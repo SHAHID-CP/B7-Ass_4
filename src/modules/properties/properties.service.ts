@@ -1,0 +1,79 @@
+import { prisma } from "../../lib/prisma";
+import { AppError } from "../../utils/sendResponse";
+import type { PropertyQuery } from "./properties.interface";
+
+const getAllProperties = async (query: PropertyQuery) => {
+  // 1. safe default values & type conversion (NaN হ্যান্ডলিং)
+  const page = Number(query.page) > 0 ? Number(query.page) : 1;
+  const limit = Number(query.limit) > 0 ? Number(query.limit) : 10;
+  const skip = (page - 1) * limit;
+
+  const location = query.location;
+  const categoryId = query.categoryId;
+  
+  // 2. Price type conversion
+  const minPrice = query.minPrice !== undefined ? Number(query.minPrice) : undefined;
+  const maxPrice = query.maxPrice !== undefined ? Number(query.maxPrice) : undefined;
+
+  const where: any = { isAvailable: true };
+
+  if (location) {
+    where.location = { contains: location, mode: "insensitive" };
+  }
+
+  if (categoryId) {
+    where.categoryId = categoryId;
+  }
+
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    where.price = {};
+    if (minPrice !== undefined && !isNaN(minPrice)) where.price.gte = minPrice;
+    if (maxPrice !== undefined && !isNaN(maxPrice)) where.price.lte = maxPrice;
+  }
+
+  const [items, total] = await Promise.all([
+    prisma.property.findMany({
+      where,
+      include: {
+        category: true,
+        landlord: { select: { id: true, name: true } },
+      },
+      skip,  // ✅ নিশ্চিতভাবে এটি এখন Valid Number
+      take: limit, // ✅ নিশ্চিতভাবে এটি এখন Valid Number
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.property.count({ where }),
+  ]);
+
+  return {
+    items,
+    meta: {
+      total,
+      page,
+      limit,
+      totalPages: Math.ceil(total / limit) || 1,
+    },
+  };
+};
+
+export const getPropertyById = async (id: string) => {
+  const property = await prisma.property.findUnique({
+    where: { id },
+    include: {
+      category: true,
+      landlord: { select: { id: true, name: true } },
+      reviews: { include: { tenant: { select: { id: true, name: true } } } },
+    },
+  });
+
+  if (!property) {
+    throw new AppError(404, "Property not found");
+  }
+
+  return property;
+};
+
+export const propertyService = {
+  getPropertyById,
+  getAllProperties,
+};
