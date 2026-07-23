@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { RentalStatus } from "../../../generated/prisma/enums";
 
 export const createPropertySchema = z.object({
   title: z.string().min(3, "Title must be at least 3 characters"),
@@ -10,6 +11,12 @@ export const createPropertySchema = z.object({
 
 export const updatePropertySchema = createPropertySchema.partial().extend({
   isAvailable: z.boolean().optional(),
+});
+
+export const updateRentalStatusSchema = z.object({
+    status: z.enum([RentalStatus.APPROVED, RentalStatus.REJECTED], {
+        message: "Status must be either APPROVED or REJECTED"
+    }),
 });
 
 export const propertyQuerySchema = z.object({

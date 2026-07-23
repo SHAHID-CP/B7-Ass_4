@@ -1,3 +1,4 @@
+import type { RentalStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utils/sendResponse";
 import type { CreatePropertyInput } from "./landlord.interface";
@@ -11,7 +12,7 @@ const createProperty = async (landlordId: string, input: CreatePropertyInput) =>
   return prisma.property.create({
     data: { ...input, landlordId },
   });
-};
+}; 
 
 const assertOwnership = async (propertyId: string, landlordId: string) => {
   const property = await prisma.property.findUnique({ where: { id: propertyId } });
@@ -47,10 +48,33 @@ const getLandlordProperties = async (landlordId: string) => {
 };
 
 
+
+export const updateRentalStatus = async ( requestId: string,landlordId: string,status: RentalStatus) => {
+  const request = await prisma.rentalRequest.findUnique({
+    where: { id: requestId },
+    include: { property: true },
+  });
+
+  if (!request) {
+    throw new AppError(404, "Rental request not found");
+  }
+
+  if (request.property.landlordId !== landlordId) {
+    throw new AppError(403, "You are not authorized to update this rental request");
+  }
+
+  return prisma.rentalRequest.update({
+    where: { id: requestId },
+    data: { status },
+    include: { property: true },
+  });
+};
+
+
 export const propertyService={
     createProperty,
     updateProperty,
     deleteProperty,
     getLandlordProperties,
-    // patchProperty
+    updateRentalStatus
 }

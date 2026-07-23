@@ -10,24 +10,26 @@ const createProperty = catchAsync(async (req: Request, res: Response,next:NextFu
 });
 
 const updateProperty = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
-  const property = await propertyService.updateProperty(req.params.id, req.user!.id, req.body);
+  const property = await propertyService.updateProperty(req.params.id as string, req.user!.id, req.body);
   sendSuccess(res, StatusCodes.OK, "Property updated successfully", property);
 });
 
 const deleteProperty = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
-  await propertyService.deleteProperty(req.params.id, req.user!.id);
-  sendSuccess(res, StatusCodes.OK, "Property deleted successfully");
-});
+  await propertyService.deleteProperty(req.params.id as string, req.user!.id);
+  sendSuccess(res, StatusCodes.OK, "Property deleted successfully",null);
+}); 
 
 const getMyProperties = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
   const properties = await propertyService.getLandlordProperties(req.user!.id);
   sendSuccess(res, StatusCodes.OK, "Your properties fetched successfully", properties);
 });
 
-// const patchProperty = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
-//   const property = await propertyService.patchProperty(req.params.id, req.user!.id, req.body);
-//   sendSuccess(res, StatusCodes.OK, "Property updated successfully", property);
-// });
+const updateRentalStatus = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
+  const { status } = req.body;
+  const property = await propertyService.updateRentalStatus(req.params.id as string, req.user!.id, status);
+  sendSuccess(res, StatusCodes.OK, "Property updated successfully", property);
+});
+
 
 
 export const landLordController={
@@ -35,5 +37,5 @@ export const landLordController={
     createProperty,
     updateProperty,
     deleteProperty,
-    // patchProperty
+    updateRentalStatus
 }
