@@ -30,6 +30,13 @@ const updateRentalStatus = catchAsync(async (req: Request, res: Response,next:Ne
   sendSuccess(res, StatusCodes.OK, "Property updated successfully", property);
 });
 
+const getTenantHistory = catchAsync(async (req: Request, res: Response) => {
+  const { tenantId } = req.params;
+  const result = await propertyService.getTenantHistoryForLandlord(tenantId as string);
+
+  sendSuccess(res,StatusCodes.OK,"Tenant history fetched successfully",result)
+});
+
 
 
 export const landLordController={
@@ -37,5 +44,6 @@ export const landLordController={
     createProperty,
     updateProperty,
     deleteProperty,
-    updateRentalStatus
+    updateRentalStatus,
+    getTenantHistory
 }

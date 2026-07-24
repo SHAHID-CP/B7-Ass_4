@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import type { RentalStatus } from "../../../generated/prisma/enums";
+import { RentalStatus, Role } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { AppError } from "../../utils/sendResponse";
 import type { CreatePropertyInput } from "./landlord.interface";
@@ -76,11 +76,66 @@ export const updateRentalStatus = async ( requestId: string,landlordId: string,s
   return updateRental
 };
 
+const getTenantHistoryForLandlord = async (tenantId: string) => {
+  const tenant = await prisma.user.findUnique({
+    where: {
+      id: tenantId,
+      role: Role.TENANT,
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      phoneNumber: true,
+      profileImage: true,
+      createdAt: true,
+      rentalRequests: {
+        where: {
+          status: {
+            in: [RentalStatus.PAID, RentalStatus.COMPLETED],
+          },
+        },
+        select: {
+          id: true,
+          status: true,
+          createdAt: true,
+          property: {
+            select: {
+              id: true,
+              title: true,
+              location: true,
+              price: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
+      reviews: {
+        select: {
+          id: true,
+          rating: true,
+          comment: true,
+          createdAt: true,
+        },
+      },
+    },
+  });
+
+  if (!tenant) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Tenant not found!");
+  }
+
+  return tenant;
+};
+
 
 export const propertyService={
     createProperty,
     updateProperty,
     deleteProperty,
     getLandlordProperties,
-    updateRentalStatus
+    updateRentalStatus,
+    getTenantHistoryForLandlord
 }

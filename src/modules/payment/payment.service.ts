@@ -17,6 +17,9 @@ const createCheckoutSession = async (tenantId: string, rentalRequestId: string) 
   if (!rentalRequest) {
     throw new AppError(StatusCodes.NOT_FOUND, "Rental request not found");
   }
+  if (!rentalRequest.property.isAvailable) {
+  throw new AppError(StatusCodes.BAD_REQUEST, "This property is no longer available for rent");
+}
   if (rentalRequest.tenantId !== tenantId) {
     throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized to pay for this rental request");
   }
@@ -82,7 +85,11 @@ const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
 
   const payment = await prisma.payment.findUnique({ where: { transactionId: session.id } });
   if (!payment) return; // nothing to reconcile
+  const rentalRequest = await prisma.rentalRequest.findUnique({
+    where: { id: rentalRequestId },
+  });
 
+  if (!rentalRequest) return;
   await prisma.payment.update({
     where: { transactionId: session.id },
     data: { status: "COMPLETED", paidAt: new Date() },
@@ -92,6 +99,11 @@ const handleCheckoutCompleted = async (session: Stripe.Checkout.Session) => {
     where: { id: rentalRequestId },
     data: { status: "PAID" },
   });
+
+  await prisma.property.update({
+      where: { id: rentalRequest.propertyId },
+      data: { isAvailable: false },
+    });
 };
 
 const handleCheckoutFailed = async (session: Stripe.Checkout.Session) => {
