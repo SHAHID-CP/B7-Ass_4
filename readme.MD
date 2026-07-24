@@ -3,7 +3,7 @@
 A backend API for a rental property marketplace where **Tenants** can browse and rent properties, **Landlords** can list and manage properties, and **Admins** oversee the platform. Built with Node.js, Express, TypeScript, PostgreSQL (Prisma), JWT authentication, and Stripe for payments.
 
 
-**🔗 Live API:** [https://rentnest-backend.onrender.com/api](https://rentnest-backend.onrender.com/api)
+**🔗 Live API:** [https://rentnest-backend.onrender.com/api](https://prisma-ass-4.vercel.app)
 ---
 
 ## 🛠️ Tech Stack
