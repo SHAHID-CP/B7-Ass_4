@@ -16,9 +16,7 @@ export const loginSchema = z.object({
 
 
 export const updateProfileSchema = z.object({
-  body: z.object({
     name: z.string().optional(),
     phoneNumber: z.string().optional(),
     profileImage: z.string().url("Invalid image URL").optional(),
-  }),
 });
