@@ -15,7 +15,7 @@ const router = Router();
 
 router.use("/auth", authRoutes);
 router.use("/properties", publicPropertyRoutes);
-router.use("/landlord",auth(Role.LANDLORD) ,landlordPropertyRoutes);
+router.use("/landlord" ,landlordPropertyRoutes);
 router.use("/categories", categoryRoutes);
 router.use("/rentals", rentalRoutes);
 router.use("/payments", paymentRoutes);
