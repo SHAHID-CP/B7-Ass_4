@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { validate } from "../../middleware/validate";
-import { loginSchema, registerSchema } from "./auth.validation";
+import { loginSchema, registerSchema, updateProfileSchema } from "./auth.validation";
 import { authController } from "./auth.controller";
 import { Role } from "../../../generated/prisma/enums";
 import { auth } from "../../middleware/auth";
@@ -16,5 +16,10 @@ router.post("/logout", authController.logout);
 router.get("/me",
 auth(Role.ADMIN, Role.LANDLORD, Role.TENANT),
 authController.getMyProfile)
+router.patch(
+  "/me",validate(updateProfileSchema),
+  auth(Role.ADMIN, Role.LANDLORD, Role.TENANT),
+  authController.updateMyProfile
+);
 
 export const authRoutes=router;

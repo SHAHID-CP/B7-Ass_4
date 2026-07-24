@@ -13,3 +13,12 @@ export const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
   password: z.string().min(8, "Password is required"),
 });
+
+
+export const updateProfileSchema = z.object({
+  body: z.object({
+    name: z.string().optional(),
+    phoneNumber: z.string().optional(),
+    profileImage: z.string().url("Invalid image URL").optional(),
+  }),
+});

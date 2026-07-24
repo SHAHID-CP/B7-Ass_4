@@ -2,7 +2,7 @@ import type { NextFunction, Request, Response } from "express";
 import { catchAsync } from "../../utils/catchAsync";
 import { AppError, sendSuccess } from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
-import { authService, userService } from "./auth.service";
+import { authService } from "./auth.service";
 import { clearAuthCookies, setAuthCookies } from "../../utils/cookies";
 
 
@@ -41,14 +41,17 @@ const refreshToken = catchAsync(async (req: Request, res: Response,next:NextFunc
 
 const getMyProfile = catchAsync( async (req: Request, res: Response, next: NextFunction) => {
 
-    const profile = await userService.getMyProfileFromDB(req.user?.id as string);
+    const profile = await authService.getMyProfileFromDB(req.user?.id as string);
     sendSuccess(res, StatusCodes.OK, "Current user fetched", profile );
 })
 
+const updateMyProfile = catchAsync(async (req, res) => {
+  const userId = req.user?.id as string;
+  const payload = req.body;
 
-export const userController = {
-    getMyProfile
-}
+  const updatedProfile = await authService.updateProfileInDB(userId, payload);
+  sendSuccess(res,StatusCodes.OK,"Profile updated successfully",updatedProfile)
+});
 
 
 export const authController={
@@ -56,5 +59,6 @@ export const authController={
     login,
     logout,
     refreshToken,
-    getMyProfile
+    getMyProfile,
+    updateMyProfile
 }

@@ -9,3 +9,9 @@ export interface LoginInput {
   email: string;
   password: string;
 }
+
+export interface TUpdateProfilePayload {
+  name?: string;
+  phoneNumber?: string;
+  profileImage?: string;
+};

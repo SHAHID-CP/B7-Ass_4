@@ -17,6 +17,7 @@ enum RentalStatus {
   PAID
   ACTIVE
   COMPLETED
+  CANCELLED
 }
 
 enum PaymentStatus {

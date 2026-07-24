@@ -10,6 +10,6 @@ const router=Router()
 router.post("/",auth(Role.TENANT), validate(createRentalRequestSchema),rentalController.createRentalRequest);
 router.get("/", auth(Role.TENANT), rentalController.getMyRentalRequests);
 router.get("/:id", auth(Role.ADMIN,Role.LANDLORD,Role.TENANT),rentalController.getRentalRequestById);
-
+router.patch("/:id/cancel",auth(Role.TENANT),rentalController.cancelRentalRequest);
 
 export const rentalRoutes=router

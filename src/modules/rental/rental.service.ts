@@ -72,10 +72,56 @@ const getRentalRequestById = async (
   return request;
 };
 
+const cancelRentalRequestInDB = async (rentalRequestId: string, userId: string) => {
+  const rentalRequest = await prisma.rentalRequest.findUnique({
+    where: { id: rentalRequestId },
+  });
+
+  if (!rentalRequest) {
+    throw new AppError(StatusCodes.NOT_FOUND, "Rental request not found!");
+  }
+
+  if (rentalRequest.tenantId !== userId) {
+    throw new AppError(StatusCodes.FORBIDDEN, "You are not authorized to cancel this rental request!");
+  }
+
+  if (rentalRequest.status === RentalStatus.PAID ||rentalRequest.status === RentalStatus.COMPLETED) {
+    throw new AppError(StatusCodes.BAD_REQUEST,`Cannot cancel request because it is already ${rentalRequest.status.toLowerCase()}!`);
+  }
+
+  if (rentalRequest.status === RentalStatus.CANCELLED) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "This rental request is already cancelled!");
+  }
+
+  if (rentalRequest.status === RentalStatus.REJECTED) {
+    throw new AppError(StatusCodes.BAD_REQUEST, "This rental request was rejected by the landlord!");
+  }
+
+  const updatedRentalRequest = await prisma.rentalRequest.update({
+    where: { id: rentalRequestId },
+    data: {
+      status: RentalStatus.CANCELLED,
+    },
+    include: {
+      property: {
+        select: {
+          id: true,
+          title: true,
+          price: true,
+          location: true,
+        },
+      },
+    },
+  });
+
+  return updatedRentalRequest;
+};
+
 
 
 export const rentalService={
     createRentalRequest,
     getMyRentalRequests,
-    getRentalRequestById
+    getRentalRequestById,
+    cancelRentalRequestInDB
 }
