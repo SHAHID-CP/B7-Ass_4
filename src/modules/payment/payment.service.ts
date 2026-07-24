@@ -140,7 +140,7 @@ const handleWebhookEvent = async (sig: string, rawBody: Buffer) => {
 // User Payment History
 const getUserPaymentHistory = async (tenantId: string, role: string) => {
   if (role === Role.ADMIN) {
-      return prisma.payment.findMany({
+      return await prisma.payment.findMany({
       include: {
         rentalRequest: {
           include: {
@@ -153,7 +153,7 @@ const getUserPaymentHistory = async (tenantId: string, role: string) => {
     });
   }
 
-  return prisma.payment.findMany({
+  return await prisma.payment.findMany({
     where: { rentalRequest: { tenantId } },
     include: {
       rentalRequest: { include: { property: true } },
