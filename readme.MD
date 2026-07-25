@@ -1,9 +1,19 @@
 # RentNest — Rental Property Marketplace Backend API
 
 A backend API for a rental property marketplace where **Tenants** can browse and rent properties, **Landlords** can list and manage properties, and **Admins** oversee the platform. Built with Node.js, Express, TypeScript, PostgreSQL (Prisma), JWT authentication, and Stripe for payments.
+---
+
+## 🔑 Key Information & Live Links
+
+*   **Live API URL:** [https://prisma-ass-4.vercel.app](https://prisma-ass-4.vercel.app)
+*   **API Documentation:** [https://documenter.getpostman.com/view/47061060/2sBY4QtLGQ](https://documenter.getpostman.com/view/47061060/2sBY4QtLGQ)
+*   **API Collection:** `RentNest_backend.postman_collection.json` (Available at the project root)
+
+### 👤 Admin Demo Credentials
+*   **Email:** `admin@gmail.com`
+*   **Password:** `12345678`
 
 
-**🔗 Live API:** [https://rentnest-backend.onrender.com/api](https://prisma-ass-4.vercel.app)
 ---
 
 ## 🛠️ Tech Stack
@@ -17,6 +27,13 @@ A backend API for a rental property marketplace where **Tenants** can browse and
 - **Payments:** Stripe (Checkout Sessions + Webhooks)
 - **API Docs:** Swagger
 - **Password Hashing:** bcryptjs
+
+---
+## 🗺️ Project ERD (Entity Relationship Diagram)
+
+The database schema and relational mapping between tables are visualized below:
+
+![Project ERD](./rent-nest-erd.png)
 
 ---
 
@@ -60,6 +77,12 @@ Role is chosen at registration and determines access to protected routes.
 
 ---
 
+## 🗂️ Entity Relationship Diagram
+
+![RentNest ERD](./docs/erd.png)
+
+---
+
 ## 🔑 Environment Variables
 
 Copy `.env.example` to `.env` and fill in the values:
@@ -87,34 +110,41 @@ STRIPE_WEBHOOK_SECRET=
 
 ## 🚀 Getting Started
 
-### 1. Install dependencies
+### 1. Clone the repository
+```bash
+git clone https://github.com/<your-username>/rentnest-backend.git
+cd rentnest-backend
+```
+
+### 2. Install dependencies
 ```bash
 npm install
 ```
 
-### 2. Set up environment variables
+### 3. Set up environment variables
 ```bash
 cp example.env .env
 ```
 Fill in your database connection string, JWT secrets, and Stripe keys.
 
-### 3. Run database migrations
+### 4. Run database migrations
 ```bash
 npx prisma migrate dev
 ```
 
-### 4. Seed the database
+### 5. Seed the database
 ```bash
 npx prisma db seed
 ```
 This creates initial data, including a working admin account.
 
-### 5. Start the development server
+### 6. Start the development server
 ```bash
 npm run dev
 ```
+Server runs at `http://localhost:<PORT>` (as set in your `.env`).
 
-### 6. Listen for Stripe webhooks (local development)
+### 7. Listen for Stripe webhooks (local development)
 ```bash
 npm run stripe:webhook
 ```
@@ -199,7 +229,11 @@ npm run stripe:webhook
 
 ---
 
+## 📄 API Documentation
+- **Postman Collection:** [https://documenter.getpostman.com/view/47061060/2sBY4QtLGQ](https://documenter.getpostman.com/view/47061060/2sBY4QtLGQ) *(replace with your published Postman docs link)*
 
+---
 
+## 🧪 Testing
 
-
+Use the included `example.env` as a reference for required environment variables, and test endpoints using Postman or Swagger UI with a valid access token (set via login/register, stored as an httpOnly cookie).

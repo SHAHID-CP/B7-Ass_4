@@ -22,7 +22,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"name\":\"tenant4\",\r\n    \"email\":\"tenan4@gamil.com\",\r\n    \"password\":\"12345678\",\r\n    \"role\":\"TENANT\"\r\n}",
+              "raw": "{\r\n    \"name\":\"tenant5\",\r\n    \"email\":\"tenan5@gamil.com\",\r\n    \"password\":\"12345678\",\r\n    \"role\":\"TENANT\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -30,12 +30,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/auth/register",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/auth/register",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "auth",
@@ -58,7 +56,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"12345678\"\r\n}",
+              "raw": "{\r\n    \"email\":\"tenan5@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -66,12 +64,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/auth/login",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/auth/login",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "auth",
@@ -100,12 +96,10 @@
               "raw": "{\r\n    \"email\":\"abcd@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/auth/me",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/auth/me",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "auth",
@@ -130,12 +124,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/auth/me",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/auth/me",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "auth",
@@ -161,12 +153,10 @@
               "raw": "{\r\n    \"email\":\"tenan4@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/auth/refresh-token",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/auth/refresh-token",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "auth",
@@ -192,12 +182,10 @@
               "raw": "{\r\n    \"email\":\"tenan4@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/auth/logout",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/auth/logout",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "auth",
@@ -225,7 +213,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"title\": \"Modern 2 Bedroom Apartment\",\r\n  \"description\": \"Spacious flat with modern amenities, 24/7 security, and balcony view.\",\r\n  \"location\": \"Mirpur 10, Dhaka\",\r\n  \"price\": 29500,\r\n  \"categoryId\": \"86d87170-ef92-4698-add5-eef3c6bfe556\"\r\n}",
+              "raw": "{\r\n  \"title\": \"Modern 5 Bedroom Apartment\",\r\n  \"description\": \"Spacious flat with modern amenities, 24/7 security, and balcony view.\",\r\n  \"location\": \"Mirpur 10, Dhaka\",\r\n  \"price\": 5500,\r\n  \"categoryId\": \"94442ce2-9880-4d84-bff4-e9d735b17ad3\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -233,12 +221,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/landlord/properties",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/landlord/properties",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "landlord",
@@ -269,12 +255,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/landlord/properties/761bc32b-3ff0-42bd-be69-36d2b38eef32",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/landlord/properties/761bc32b-3ff0-42bd-be69-36d2b38eef32",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "landlord",
@@ -291,12 +275,10 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/landlord/properties/aa8443a0-34d2-4e99-a91d-e42ddbbd6aed",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/landlord/properties/aa8443a0-34d2-4e99-a91d-e42ddbbd6aed",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "landlord",
@@ -313,12 +295,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/landlord/requests",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/landlord/requests",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "landlord",
@@ -343,17 +323,15 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/landlord/requests/528dacc7-ce36-4ed2-9408-097f8f3d2558",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/landlord/requests/92c75ef6-fbba-4eaa-a26e-0be27dd1b914",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "landlord",
                 "requests",
-                "528dacc7-ce36-4ed2-9408-097f8f3d2558"
+                "92c75ef6-fbba-4eaa-a26e-0be27dd1b914"
               ]
             }
           },
@@ -372,12 +350,10 @@
               "raw": "{\r\n  \"status\": \"APPROVED\" \r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/landlord/tenant-history/653df3c6-a567-4770-941b-ff5db0b65f71",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/landlord/tenant-history/653df3c6-a567-4770-941b-ff5db0b65f71",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "landlord",
@@ -414,12 +390,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/categories",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/categories",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "categories"
@@ -447,12 +421,10 @@
               "raw": "{\r\n  \"title\": \"Modern 2 Bedroom Apartment\",\r\n  \"description\": \"Spacious flat with modern amenities, 24/7 security, and balcony view.\",\r\n  \"location\": \"Mirpur 10, Dhaka\",\r\n  \"price\": 18500,\r\n  \"categoryId\": \"a3ba6226-9fcf-4d23-9e20-e4055702e556\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/categories",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/categories",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "categories"
@@ -477,12 +449,10 @@
               "raw": "{\r\n  \"title\": \"Modern 2 Bedroom Apartment\",\r\n  \"description\": \"Spacious flat with modern amenities, 24/7 security, and balcony view.\",\r\n  \"location\": \"Mirpur 10, Dhaka\",\r\n  \"price\": 18500,\r\n  \"categoryId\": \"a3ba6226-9fcf-4d23-9e20-e4055702e556\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/categories/f62812f5-c801-44c3-9940-14aad1ad2877",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/categories/f62812f5-c801-44c3-9940-14aad1ad2877",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "categories",
@@ -504,7 +474,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"propertyId\": \"dade095a-4dad-4835-a024-ea8e555f96c2\"\r\n}",
+              "raw": "{\r\n  \"propertyId\": \"98967652-dae4-48f8-8c02-8ea279c9b851\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -512,12 +482,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/rentals",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/rentals",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "rentals"
@@ -539,12 +507,10 @@
               "raw": "{\r\n  \"propertyId\": \"012c2ae2-b2a6-46b3-bae2-1982caff1a62\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/rentals",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/rentals",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "rentals"
@@ -566,12 +532,10 @@
               "raw": "{\r\n  \"propertyId\": \"012c2ae2-b2a6-46b3-bae2-1982caff1a62\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/rentals/353e62d7-bbd7-4161-a505-06b1fdfcbbc7",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/rentals/353e62d7-bbd7-4161-a505-06b1fdfcbbc7",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "rentals",
@@ -597,12 +561,10 @@
               "raw": "{\r\n    \"email\":\"admin@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/rentals/5012567b-626f-4b86-9c8c-5f79fb755223/cancel",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/rentals/5012567b-626f-4b86-9c8c-5f79fb755223/cancel",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "rentals",
@@ -637,12 +599,10 @@
               "raw": "{\r\n  \"title\": \"Modern 2 Bedroom Apartment\",\r\n  \"description\": \"Spacious flat with modern amenities, 24/7 security, and balcony view.\",\r\n  \"location\": \"Mirpur 10, Dhaka\",\r\n  \"price\": 18500,\r\n  \"categoryId\": \"a3ba6226-9fcf-4d23-9e20-e4055702e556\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/properties?location=Dhaka&minPrice=10000&maxPrice=30000&page=1&limit=10",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/properties?location=Dhaka&minPrice=10000&maxPrice=30000&page=1&limit=10",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "properties"
@@ -692,12 +652,10 @@
               "raw": "{\r\n  \"title\": \"Modern 2 Bedroom Apartment\",\r\n  \"description\": \"Spacious flat with modern amenities, 24/7 security, and balcony view.\",\r\n  \"location\": \"Mirpur 10, Dhaka\",\r\n  \"price\": 18500,\r\n  \"categoryId\": \"a3ba6226-9fcf-4d23-9e20-e4055702e556\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/properties/761bc32b-3ff0-42bd-be69-36d2b38eef32",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/properties/761bc32b-3ff0-42bd-be69-36d2b38eef32",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "properties",
@@ -718,12 +676,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/admin/users",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/admin/users",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "admin",
@@ -748,12 +704,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/admin/users/e633402a-9674-459d-9967-8b1e396ad4f3",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/admin/users/e633402a-9674-459d-9967-8b1e396ad4f3",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "admin",
@@ -770,12 +724,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/admin/properties",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/admin/properties",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "admin",
@@ -791,12 +743,10 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:5000/api/admin/rentals",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/admin/rentals",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "admin",
@@ -824,7 +774,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"rentalRequestId\":\"528dacc7-ce36-4ed2-9408-097f8f3d2558\"\r\n}",
+              "raw": "{\r\n  \"rentalRequestId\":\"92c75ef6-fbba-4eaa-a26e-0be27dd1b914\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -832,12 +782,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/payments/create",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/payments/create",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "payments",
@@ -866,12 +814,10 @@
               "raw": "{\r\n  \"rentalRequestId\":\"4131ac56-2e72-4778-a4ae-939981b42fd3\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/payments",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/payments",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "payments"
@@ -899,12 +845,10 @@
               "raw": "{\r\n  \"rentalRequestId\":\"4131ac56-2e72-4778-a4ae-939981b42fd3\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/payments/77d42720-01e6-4608-b6c1-b698e8d653dd",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/payments/77d42720-01e6-4608-b6c1-b698e8d653dd",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "payments",
@@ -940,12 +884,10 @@
               }
             },
             "url": {
-              "raw": "http://localhost:5000/api/reviews",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/reviews",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "reviews"
@@ -973,12 +915,10 @@
               "raw": "{\r\n    \"email\":\"tenant2@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/reviews/property/dade095a-4dad-4835-a024-ea8e555f96c2",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/reviews/property/dade095a-4dad-4835-a024-ea8e555f96c2",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "reviews",
@@ -1008,12 +948,10 @@
               "raw": "{\r\n    \"email\":\"tenant2@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/reviews/landlord",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/reviews/landlord",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "reviews",
@@ -1042,12 +980,10 @@
               "raw": "{\r\n    \"email\":\"tenant2@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/reviews/admin",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/reviews/admin",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "reviews",
@@ -1076,12 +1012,10 @@
               "raw": "{\r\n    \"email\":\"tenant2@gamil.com\",\r\n    \"password\":\"12345678\"\r\n}"
             },
             "url": {
-              "raw": "http://localhost:5000/api/reviews/admin",
-              "protocol": "http",
+              "raw": "{{base_url}}/api/reviews/admin",
               "host": [
-                "localhost"
+                "{{base_url}}"
               ],
-              "port": "5000",
               "path": [
                 "api",
                 "reviews",
