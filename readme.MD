@@ -77,12 +77,6 @@ Role is chosen at registration and determines access to protected routes.
 
 ---
 
-## 🗂️ Entity Relationship Diagram
-
-![RentNest ERD](./docs/erd.png)
-
----
-
 ## 🔑 Environment Variables
 
 Copy `.env.example` to `.env` and fill in the values:
