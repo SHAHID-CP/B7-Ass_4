@@ -3,6 +3,7 @@ export interface PropertyQuery {
   minPrice?: number;
   maxPrice?: number;
   categoryId?: string;
+  sortBy?:string;
   page: number;
   limit: number;
 }

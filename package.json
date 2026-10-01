@@ -9,7 +9,7 @@
     "build": "prisma migrate deploy && prisma generate && tsup",
     "start": "node dist/server.js",
     "dev": "tsx watch ./src/server.ts",
-    "stripe:webhook" : "stripe listen --forward-to localhost:5000/api/payments/confirm"
+    "stripe:webhook": "stripe listen --forward-to localhost:5000/api/payments/confirm"
   },
   "keywords": [],
   "author": "",
@@ -23,6 +23,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "google-auth-library": "^11.0.1",
     "helmet": "^8.3.0",
     "http-status-codes": "^2.3.0",
     "jsonwebtoken": "^9.0.3",

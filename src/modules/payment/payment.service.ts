@@ -26,13 +26,18 @@ const createCheckoutSession = async (tenantId: string, rentalRequestId: string) 
   if (rentalRequest.status !== "APPROVED") {
     throw new AppError(StatusCodes.BAD_REQUEST, "Rental request is not approved yet");
   }
-  const existingPayment = await prisma.payment.findFirst({
-    where: { rentalRequestId, status: "COMPLETED" },
-  });
+const existingPayment = await prisma.payment.findUnique({
+  where: {
+    rentalRequestId,
+  },
+});
 
-  if (existingPayment) {
-    throw new AppError(StatusCodes.BAD_REQUEST, "Payment has already been completed for this rental");
-  }
+if (existingPayment?.status === "COMPLETED") {
+  throw new AppError(
+    StatusCodes.BAD_REQUEST,
+    "Payment has already been completed."
+  );
+}
 
 
   // Stripe Checkout Session
@@ -56,19 +61,29 @@ const createCheckoutSession = async (tenantId: string, rentalRequestId: string) 
       rentalRequestId,
       tenantId,
     },
-    success_url : `${config.app_url}/payment?success=true`,
-    cancel_url: `${config.app_url}/payment?success=false`,
+    success_url : `${config.app_url}/dashboard/tenant/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+    cancel_url: `${config.app_url}/dashboard/tenant/payment/cancel?requestId=${rentalRequestId}`,
   });
 
-    await prisma.payment.create({
-    data: {
-      rentalRequestId,
-      transactionId: session.id,
-      amount: rentalRequest.property.price,
-      provider: "stripe",
-      status: "PENDING",
-    },
-  });
+await prisma.payment.upsert({
+  where: {
+    rentalRequestId,
+  },
+  update: {
+    transactionId: session.id,
+    amount: rentalRequest.property.price,
+    provider: "stripe",
+    status: "PENDING",
+    paidAt: null,
+  },
+  create: {
+    rentalRequestId,
+    transactionId: session.id,
+    amount: rentalRequest.property.price,
+    provider: "stripe",
+    status: "PENDING",
+  },
+});
 
   return { checkoutUrl: session.url, sessionId: session.id };
 };

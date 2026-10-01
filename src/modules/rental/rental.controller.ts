@@ -10,7 +10,7 @@ const createRentalRequest = catchAsync(async (req: Request, res: Response,next:N
 });
 
 const getMyRentalRequests = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
-  const requests = await rentalService.getMyRentalRequests(req.user!.id);
+  const requests = await rentalService.getMyRentalRequests(req.user!.id,req.user!.role);
   sendSuccess(res, StatusCodes.OK, "Rental requests fetched successfully", requests);
 });
 
@@ -36,5 +36,5 @@ export const rentalController={
     createRentalRequest,
     getMyRentalRequests,
     getRentalRequestById,
-    cancelRentalRequest
+    cancelRentalRequest,
 }

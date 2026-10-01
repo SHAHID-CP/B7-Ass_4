@@ -5,6 +5,7 @@ export const createPropertySchema = z.object({
   description: z.string().min(10, "Description must be at least 10 characters"),
   location: z.string().min(2, "Location is required"),
   price: z.number().positive("Price must be a positive number"),
+  image: z.string().url("Invalid image URL"),
   categoryId: z.string().uuid("Invalid category id"),
 });
 
@@ -17,6 +18,7 @@ export const propertyQuerySchema = z.object({
   minPrice: z.coerce.number().nonnegative().optional(),
   maxPrice: z.coerce.number().nonnegative().optional(),
   categoryId: z.string().uuid().optional(),
+  sortBy: z.string().optional(),
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(100).default(10),
 });

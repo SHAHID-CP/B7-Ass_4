@@ -6,7 +6,7 @@ import { StatusCodes } from "http-status-codes";
 
 
 const getAllUsers = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
-  const users = await adminService.getAllUsers();
+  const users = await adminService.getAllUsers(req.query);
   sendSuccess(res, StatusCodes.OK, "Users fetched successfully", users);
 });
 
@@ -25,11 +25,17 @@ export const getAllRentals = catchAsync(async (req: Request, res: Response,next:
   sendSuccess(res, StatusCodes.OK, "All rental requests fetched successfully", rentals);
 });
 
+export const getStats = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
+  const rentals = await adminService.getStats();
+  sendSuccess(res, StatusCodes.OK, "All stats requests fetched successfully", rentals);
+});
+
 
 
 export const adminController={
     getAllUsers,
     updateUserStatus,
     getAllProperties,
-    getAllRentals
+    getAllRentals,
+    getStats
 }

@@ -6,13 +6,73 @@ import { AppError } from "../../utils/sendResponse";
 import { StatusCodes } from "http-status-codes";
 import { jwtUtils } from "../../utils/jwt";
 import type { JwtPayload, SignOptions } from "jsonwebtoken";
-
+import { OAuth2Client } from 'google-auth-library';
+import { Role } from "../../../generated/prisma/enums";
 
 const issueTokenPair = async (payload : JwtPayload) => {
   const accessToken =jwtUtils.createToken(payload,config.jwt_access_secret,config.jwt_access_expires_in as SignOptions )
   const refreshToken = jwtUtils.createToken(payload,config.jwt_refresh_secret,config.jwt_refresh_expires_in as SignOptions )
   return { accessToken, refreshToken };
 };
+
+
+//google login service
+const client = new OAuth2Client(config.google_client);
+export const googleLoginUser = async (idToken: string) => {
+let tokenInfo;
+  try {
+    tokenInfo = await client.getTokenInfo(idToken);
+  } catch (error) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, "Invalid Google Access Token");
+  }
+
+  const response = await fetch(`https://www.googleapis.com/oauth2/v3/userinfo`, {
+    headers: { Authorization: `Bearer ${idToken}` },
+  });
+
+  if (!response.ok) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, "Failed to fetch user info from Google");
+  }
+
+  const googlePayload = await response.json();
+  const { email, name } = googlePayload;
+
+  if (!email) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, "Invalid Google token payload");
+  }
+
+  let user = await prisma.user.findUnique({ where: { email } });
+  const password="12345678"
+  const hashedPassword = await bcrypt.hash(password, Number(config.bcrypt_salt_rounds))
+
+  // 3. If user doesn't exist, create a new user
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        name: name || "Google User",
+        email,
+        password: hashedPassword, 
+        role: Role.TENANT, // Default role
+      },
+    });
+  }
+  // 4. Check user status
+  if (user.status === "BANNED" || user.status === "SUSPENDED") {
+    throw new AppError(StatusCodes.FORBIDDEN, "Your account has been banned or suspended");
+  }
+  // 5. Issue your JWT tokens
+  const jwtPayload = { id: user.id, name: user.name, email: user.email, role: user.role };
+  const tokens = await issueTokenPair(jwtPayload);
+
+  const { password: _, ...safeUser } = user;
+  return { user: safeUser, ...tokens };
+};
+
+
+
+
+
+
 
 const registerUser=async(payload:RegisterInput)=>{
     const { name, email, password, role } = payload;
@@ -157,5 +217,6 @@ export const authService={
     loginUser,
     refreshToken,
     getMyProfileFromDB,
-    updateProfileInDB
+    updateProfileInDB,
+    googleLoginUser
 }

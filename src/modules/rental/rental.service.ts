@@ -38,15 +38,38 @@ const createRentalRequest = async (tenantId: string, propertyId: string) => {
   return rentalPost
 };
 
-const getMyRentalRequests = async (tenantId: string) => {
+const getMyRentalRequests = async (tenantId: string,role: "TENANT" | "LANDLORD" | "ADMIN") => {
 
-  const rentals=prisma.rentalRequest.findMany({
+  if(role==="TENANT"){
+    const rentals=prisma.rentalRequest.findMany({
     where: { tenantId },
     include: { property: true, payment: true },
     orderBy: { createdAt: "desc" },
   });
 
   return rentals
+  }else if(role==="LANDLORD"){
+  const rentals=await prisma.rentalRequest.findMany({
+      where: {
+        property: {
+          landlordId: tenantId,
+        },
+      },
+      include: {
+        property: true,
+        tenant: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return rentals
+  }
 };
 
 

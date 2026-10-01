@@ -14,7 +14,7 @@ const app: Application = express();
 
 
 app.use(helmet());
-app.use(cors({origin: config.app_url,credentials : true,}),);
+app.use(cors({origin:[config.app_url,"http://localhost:3000","http://127.0.0.1:3000"],credentials : true,}),);
 app.post("/api/payments/confirm",express.raw({ type: "application/json" }),paymentController.handleStripeWebhook);
 app.use(CookieParser());
 app.use(express.json());

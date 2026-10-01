@@ -30,6 +30,16 @@ const getAllProperties = async (query: PropertyQuery) => {
     if (maxPrice !== undefined && !isNaN(maxPrice)) where.price.lte = maxPrice;
   }
 
+
+let orderBy: any = { createdAt: "desc" };
+if (query.sortBy) {
+  const [field, order] = query.sortBy.split(/[-_]/); 
+  
+  if (field && order) {
+    orderBy = { [field]: order.toLowerCase() === "asc" ? "asc" : "desc" };
+  }
+}
+
   const [items, total] = await Promise.all([
     prisma.property.findMany({
       where,
@@ -39,7 +49,7 @@ const getAllProperties = async (query: PropertyQuery) => {
       },
       skip, 
       take: limit, 
-      orderBy: { createdAt: "desc" },
+      orderBy, // Dynamic OrderBy Applied
     }),
     prisma.property.count({ where }),
   ]);

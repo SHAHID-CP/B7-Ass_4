@@ -10,14 +10,24 @@ const register = catchAsync(async (req: Request, res: Response,next:NextFunction
     const payload = req.body;
     const {accessToken, refreshToken,user} = await authService.registerUser(payload);
     setAuthCookies(res, accessToken, refreshToken);
-    sendSuccess(res, StatusCodes.CREATED, "User registered successfully", user);
+    sendSuccess(res, StatusCodes.CREATED, "User registered successfully", {user,accessToken,refreshToken });
 });
 
 const login = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
     const payload = req.body;
     const {accessToken, refreshToken,user} = await authService.loginUser(payload);
     setAuthCookies(res, accessToken, refreshToken);
-    sendSuccess(res, StatusCodes.OK, "Login successful", user );
+    sendSuccess(res, StatusCodes.OK, "Login successful", {user,accessToken,refreshToken } );
+});
+
+const googleLogin = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const { idToken } = req.body;
+    if (!idToken) {
+      throw new AppError(StatusCodes.BAD_REQUEST, "Google ID Token is required");
+    }
+    const { accessToken, refreshToken, user } = await authService.googleLoginUser(idToken);
+    setAuthCookies(res, accessToken, refreshToken);
+    sendSuccess(res, StatusCodes.OK, "Google Login successful", {user,accessToken,refreshToken });
 });
 
 const logout = catchAsync(async (req: Request, res: Response,next:NextFunction) => {
@@ -60,5 +70,6 @@ export const authController={
     logout,
     refreshToken,
     getMyProfile,
-    updateMyProfile
+    updateMyProfile,
+    googleLogin
 }
